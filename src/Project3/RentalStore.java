@@ -1,4 +1,4 @@
-package rentalStorePrjGIVETOSTUDENTS;
+package Project3;
 
 import javax.swing.*;
 import java.io.*;

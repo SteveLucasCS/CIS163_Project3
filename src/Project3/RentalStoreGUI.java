@@ -1,4 +1,4 @@
-package rentalStorePrjGIVETOSTUDENTS;
+package Project3;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -129,6 +129,11 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 			DVD dvd = new DVD();
 			RentDVDDialog dialog = new RentDVDDialog(this, dvd);
 			list.add(dvd);
+		}
+		if (e.getSource() == rentGame) {
+			Game game = new Game();
+			RentGameDialog dialog = new RentGameDialog(this, game);
+			list.add(game);
 		}
 
 		if (returnItem == e.getSource()) {
