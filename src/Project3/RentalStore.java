@@ -7,35 +7,33 @@ import java.util.*;
 
 public class RentalStore extends AbstractListModel {
 
-	private ArrayList<DVD> listDVDs;
+	private ArrayList<DVD> DVDList;
 
 	private boolean filter;
 
 	public RentalStore() {
 		super();
 		filter = false;
-		listDVDs = new ArrayList<DVD>();
+		DVDList = new ArrayList<DVD>();
 	}
 
 	public void add (DVD a) {
-		listDVDs.add(a);
-		fireIntervalAdded(this, 0, listDVDs.size());
+		DVDList.add(a);
+		fireIntervalAdded(this, 0, DVDList.size());
 	}
-
+	
 	public DVD get (int i) {
-		return listDVDs.get(i);
+		return DVDList.get(i);
 	}
 
-	public Object getElementAt(int arg0) {	
-
-			//return "Happy";
-
-		DVD unit = listDVDs.get(arg0);
+	public Object getElementAt(int arg0) {
+		DVD unit = DVDList.get(arg0);
 
 		//		String rentedOnDateStr = DateFormat.getDateInstance(DateFormat.SHORT)
 		//				.format(unit.getRentedOn().getTime());
 
-		String line = "Name: " + " " + listDVDs.get(arg0).getNameOfRenter();
+		String line = "Name: " + " " + DVDList.get(arg0).getNameOfRenter() +
+				"  Title: " + DVDList.get(arg0).getTitle(); 
 
 		//		if (unit instanceof Game)
 		//			line += ", Car Player: " + ((Game)unit).getPlayer();
@@ -44,15 +42,14 @@ public class RentalStore extends AbstractListModel {
 	}
 
 	public int getSize() {
-	//	return 5;
-		return listDVDs.size();
+		return DVDList.size();
 	}
 
 	public void saveAsSerializable(String filename) {
 		try {
 			FileOutputStream fos = new FileOutputStream(filename);
 			ObjectOutputStream os = new ObjectOutputStream(fos);
-			os.writeObject(listDVDs);
+			os.writeObject(DVDList);
 			os.close();
 		}
 		catch (IOException ex) {
@@ -66,8 +63,8 @@ public class RentalStore extends AbstractListModel {
 			FileInputStream fis = new FileInputStream(filename);
 			ObjectInputStream is = new ObjectInputStream(fis);
 
-			listDVDs = (ArrayList<DVD>) is.readObject();
-			fireIntervalAdded(this, 0, listDVDs.size() - 1);
+			DVDList = (ArrayList<DVD>) is.readObject();
+			fireIntervalAdded(this, 0, DVDList.size() - 1);
 			is.close();
 		}
 		catch (Exception ex) {
