@@ -167,6 +167,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Thanks " + unit.getNameOfRenter() +
 					" for returning " + unit.getTitle() + ", you owe: " + unit.getCost(date) +
 					" dollars");
+					list.remove(index);
 				}
 				catch (ParseException pe) {
 					JOptionPane.showMessageDialog(null, "Could not parse input date!");

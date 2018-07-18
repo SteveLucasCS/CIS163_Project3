@@ -22,8 +22,8 @@ public class RentalStore extends AbstractListModel {
 		fireIntervalAdded(this, 0, DVDList.size());
 	}
 
-	public void remove (int index) {
-		DVDList.remove(index);
+	public void remove (int i) {
+		DVDList.remove(i);
 		fireIntervalRemoved(this, 0, DVDList.size());
 	}
 
@@ -31,23 +31,27 @@ public class RentalStore extends AbstractListModel {
 		return DVDList.get(i);
 	}
 
-	public Object getElementAt(int index) {
-		DVD unit = DVDList.get(index);
+	public Object getElementAt(int i) {
+		DVD unit = DVDList.get(i);
 
 		//	String rentedOnDateStr = DateFormat.getDateInstance(DateFormat.SHORT)
 		//				.format(unit.getRentedOn().getTime());
 
-		String line = "Name: " + " " + DVDList.get(index).getNameOfRenter() +
-				"  Title: " + DVDList.get(index).getTitle();
+		String line = "Name: " + " " + DVDList.get(i).getNameOfRenter() + "  Title: " + DVDList.get(i).getTitle();
 
-		//		if (unit instanceof Game)
-		//			line += ", Car Player: " + ((Game)unit).getPlayer();
+		if (unit instanceof Game) {
+			line += "  System: " + ((Game)unit).getPlayer();
+		}
 
 		return line;
 	}
 
 	public int getSize() {
 		return DVDList.size();
+	}
+
+	public ArrayList<DVD> getList() {
+		return DVDList;
 	}
 
 	public void saveAsSerializable(String filename) {
