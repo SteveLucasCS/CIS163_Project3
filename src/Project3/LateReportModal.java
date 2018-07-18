@@ -30,7 +30,7 @@ public class LateReportModal extends JDialog {
 		displayList = new JPanel();
 
 		setTitle("Late Unit Report");
-		setSize(300, 300);
+		setSize(400, 400);
 
 		// iterate through the input list
 		int count = 0;
