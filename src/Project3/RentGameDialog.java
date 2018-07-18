@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Container;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,35 +17,39 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 	/** List of available PlayerTypes that will appear in the playerList **/
 	private final String[] SYSTEM_LIST = {"Xbox One", "Xbox 360",
 			"PS4", "Nintendo Switch", "WiiU"};
-	
+
 	/** Text field where user enters the name of the rented game **/
 	private JTextField titleTxt;
-	
+
 	/** JList for the user to choose the game system the game is for **/
 	private JTextField playerTxt;
-	
+
 	/** Text field where user enters their own name **/
 	private JTextField renterTxt;
-	
+
 	/** Text field that displays the date the game was rented on **/
 	private JTextField rentedOnTxt;
-	
+
 	/** Text field that displays the date the game is due back **/
 	private JTextField DueBackTxt;
 
 	/** Button to confirm and submit rental dialog **/
 	private JButton okButton;
-	
+
 	/** Button to cancel the current dialog **/
 	private JButton cancelButton;
-	
+
 	/** closeStatus will be 'true' if the dialog closed properly **/
 	private boolean closeStatus;
+
+	private Container con;
 
 	private Game unit;
 	public RentGameDialog(JFrame parent, Game d) {
 		// call parent and create a 'modal' dialog
 		super(parent, true);
+
+		con = getContentPane();
 
 		setTitle("Rent a Game:");
 		closeStatus = false;
@@ -58,7 +63,7 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 
 		JPanel textPanel = new JPanel();
 		JScrollPane scrollPane = new JScrollPane();
-		
+
 		textPanel.setLayout(new GridLayout(6, 2));
 
 		/* Text box for input of renter's name */
@@ -74,8 +79,8 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 		/* Text box for input of game system */
 		textPanel.add(new JLabel("Game System:"));
 		playerTxt = new JTextField("Xbox One", 30);
-		textPanel.add(playerTxt);		
-		
+		textPanel.add(playerTxt);
+
 		/* Gets today's date */
 		Date date = Calendar.getInstance().getTime();
 		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -96,7 +101,7 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 		DueBackTxt = new JTextField(df.format(date), 15);
 		textPanel.add(DueBackTxt);
 
-		getContentPane().add(textPanel, BorderLayout.CENTER);
+		con.add(textPanel, BorderLayout.CENTER);
 
 		// Instantiate and display two buttons
 		okButton = new JButton("OK");
@@ -104,7 +109,8 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
-		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+		con.add(buttonPanel, BorderLayout.SOUTH);
+
 		okButton.addActionListener(this);
 		cancelButton.addActionListener(this);
 

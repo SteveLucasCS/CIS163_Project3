@@ -52,9 +52,9 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		menus = new JMenuBar();
 		fileMenu = new JMenu("File");
 		actionMenu = new JMenu("Action");
-		openSerItem = new JMenuItem("Open File");
+		openSerItem = new JMenuItem("Open Database");
 		exitItem = new JMenuItem("Exit");
-		saveSerItem = new JMenuItem("Save File");
+		saveSerItem = new JMenuItem("Save Database");
 		openTextItem = new JMenuItem("Open Text");
 		saveTextItem = new JMenuItem("Save Text");
 		rentDVD = new JMenuItem("Rent DVD");
@@ -123,7 +123,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 
 		//MenuBar options
 		if (e.getSource() == exitItem) {
-			System.exit(1);
+			System.exit(0);
 		}
 		if (e.getSource() == rentDVD) {
 			DVD dvd = new DVD();
@@ -138,22 +138,28 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 
 		if (returnItem == e.getSource()) {
 			int index = JListArea.getSelectedIndex();
+			if(index < 0) {
+				JOptionPane.showMessageDialog(null, "Please select a unit to return from the list.");
+			} else {
+				GregorianCalendar date = new GregorianCalendar();
+				String inputDate = JOptionPane.showInputDialog("Enter return date (MM/DD/YYYY): ");
+				SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+				try {
+					Date newDate = df.parse(inputDate);
+					date.setTime(newDate);
 
-			GregorianCalendar date = new GregorianCalendar();
-			String inputDate = JOptionPane.showInputDialog("Enter return date: ");
-			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			try {
-				Date newDate = df.parse(inputDate);
-				date.setTime(newDate);
-			}
-			catch (ParseException pe){
-				System.out.println("Could not parse input date!");
-			}
-
-			DVD unit = list.get(index);
-			JOptionPane.showMessageDialog(null, "Thanks " + unit.getNameOfRenter() +
+					DVD unit = list.get(index);
+					JOptionPane.showMessageDialog(null, "Thanks " + unit.getNameOfRenter() +
 					" for returning " + unit.getTitle() + ", you owe: " + unit.getCost(date) +
 					" dollars");
+				}
+				catch (ParseException pe){
+					JOptionPane.showMessageDialog(null, "Could not parse input date!");
+				}
+				catch(NullPointerException npe) {
+					JOptionPane.showMessageDialog(null, "Return cancelled.");
+				}
+			}
 		}
 	}
 

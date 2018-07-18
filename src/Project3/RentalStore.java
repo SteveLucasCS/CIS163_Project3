@@ -21,19 +21,24 @@ public class RentalStore extends AbstractListModel {
 		DVDList.add(a);
 		fireIntervalAdded(this, 0, DVDList.size());
 	}
-	
+
+	public void remove (int index) {
+		DVDList.remove(index);
+		fireIntervalAdded(this, index - 1, index);
+	}
+
 	public DVD get (int i) {
 		return DVDList.get(i);
 	}
 
-	public Object getElementAt(int arg0) {
-		DVD unit = DVDList.get(arg0);
+	public Object getElementAt(int index) {
+		DVD unit = DVDList.get(index);
 
 		//		String rentedOnDateStr = DateFormat.getDateInstance(DateFormat.SHORT)
 		//				.format(unit.getRentedOn().getTime());
 
-		String line = "Name: " + " " + DVDList.get(arg0).getNameOfRenter() +
-				"  Title: " + DVDList.get(arg0).getTitle(); 
+		String line = "Name: " + " " + DVDList.get(index).getNameOfRenter() +
+				"  Title: " + DVDList.get(index).getTitle();
 
 		//		if (unit instanceof Game)
 		//			line += ", Car Player: " + ((Game)unit).getPlayer();
@@ -53,8 +58,7 @@ public class RentalStore extends AbstractListModel {
 			os.close();
 		}
 		catch (IOException ex) {
-			JOptionPane.showMessageDialog(null,"Error in saving db");
-
+			JOptionPane.showMessageDialog(null, "Error saving db");
 		}
 	}
 
@@ -68,7 +72,7 @@ public class RentalStore extends AbstractListModel {
 			is.close();
 		}
 		catch (Exception ex) {
-			JOptionPane.showMessageDialog(null,"Error in loading db");
+			JOptionPane.showMessageDialog(null, "Error loading db");
 		}
 	}
 }
