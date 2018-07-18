@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Scanner;
 
 
 public class RentDVDDialog extends JDialog implements ActionListener {
@@ -94,15 +96,73 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 			// save the information in the object
 			closeStatus = true;
 
-			// TODO: set all props for dvd
 			unit.setNameOfRenter(renterTxt.getText());
 			unit.setTitle(titleTxt.getText());
-			// unit.set
+			unit.setBought(textToCalendar(rentedOnTxt.getText()));
+			unit.setDueBack(textToCalendar(DueBackTxt.getText()));
 
 		}
 
 		// make the dialog disappear
 		dispose();
+	}
+	
+	/****************************************************************************
+	 * Converts a String input into a GregorianCalendar date and returns it.
+	 * @param text is a date in the form of a string
+	 * @return GregorianCalendar date converted from text input. Will return
+	 * today's date if the input is invalid
+	 */
+	private GregorianCalendar textToCalendar(String text) {
+		int tempDay = 0;
+		int tempMonth = 0;
+		int tempYear = 0;
+		Scanner scnr = new Scanner(text);
+		
+		//Validate and set month
+		if (scnr.hasNextInt()) {
+			tempMonth = scnr.nextInt();
+			if (tempMonth > 12)
+				tempMonth = tempMonth / 12 + tempMonth % 12;
+			else if (tempMonth < 1) {
+				JOptionPane.showMessageDialog(null, "Invalid Date");
+				scnr.close();
+				return null;
+			}
+		}
+		//Validate and set day
+		if (scnr.hasNextInt()) {
+			tempDay = scnr.nextInt();
+			if (tempDay < 1) {
+				JOptionPane.showMessageDialog(null, "Invalid Date");
+				scnr.close();
+				return new GregorianCalendar();
+			}
+			if (tempMonth % 2 == 0 && tempMonth != 2) 
+				if (tempDay > 31)
+					tempDay = tempDay / 31 + tempDay % 31;
+			else if (tempMonth == 2)
+				if (tempDay > 28)
+					tempDay = tempDay / 28 + tempDay % 28;
+			else 
+				if (tempDay > 30)
+					tempDay = tempDay / 30 + tempDay % 30;
+		}
+		//Validate and set year
+		if (scnr.hasNextInt()) {
+			tempYear = scnr.nextInt();
+		}
+		if (tempMonth == 0 || tempDay == 0 || tempYear == 0) {
+			JOptionPane.showMessageDialog(null, "Invalid Date");
+			scnr.close();
+			return new GregorianCalendar();
+		}
+		
+		GregorianCalendar dueBack = new GregorianCalendar(
+				tempYear, tempMonth, tempDay);
+		scnr.close();
+		//returns converted date
+		return dueBack;
 	}
 
 	public boolean closeOK() {
