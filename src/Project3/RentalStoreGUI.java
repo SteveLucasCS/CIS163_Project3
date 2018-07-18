@@ -187,16 +187,11 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 				date.setTime(newDate);
 				LateReportModal reportModal = new LateReportModal(this, date, list);
 			}
-<<<<<<< HEAD
-			catch (ParseException pe){
-				JOptionPane.showMessageDialog(null, "Invalid Date.");
-=======
 			catch (ParseException pe) {
 				JOptionPane.showMessageDialog(null, "Could not parse input date!");
 			}
 			catch(NullPointerException npe) {
 				JOptionPane.showMessageDialog(null, "Report generation cancelled.");
->>>>>>> whynotd
 			}
 		}
 	}
