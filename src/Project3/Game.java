@@ -21,8 +21,9 @@ public class Game extends DVD {
 		return this.player;
 	}
 	
-	public void setPlayerType(String inputStr) {
-		/* TODO: parse string for game system and set enum */
+	public void setPlayerType(PlayerType player) {
+		// User input is parsed and checked in GUI
+		this.player = player;
 	}
 	
 }

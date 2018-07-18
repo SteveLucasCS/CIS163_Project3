@@ -123,7 +123,30 @@ public class RentGameDialog  extends JDialog implements ActionListener {
 
 			unit.setNameOfRenter(renterTxt.getText());
 			unit.setTitle(titleTxt.getText());
-			unit.setPlayerType(playerTxt.getText());
+			
+			// User input for PlayerType parsed
+			playerTxt.setText(playerTxt.getText().toLowerCase());
+			if (playerTxt.getText().matches("(^xbox1$)|(^xbox360$)|"
+					+ "(^wiiu$)|(^ps4$)|(^nintendoswitch$)")) {
+				
+				if (playerTxt.getText().contains("xbox1"))
+					unit.setPlayerType(PlayerType.XBox1);
+				else if (playerTxt.getText().contains("xbox360"))
+					unit.setPlayerType(PlayerType.Xbox360);
+				else if (playerTxt.getText().contains("wiiu"))
+					unit.setPlayerType(PlayerType.WiiU);
+				else if (playerTxt.getText().contains("ps4"))
+					unit.setPlayerType(PlayerType.PS4);
+				else if (playerTxt.getText().contains("nintendoswitch"))
+					unit.setPlayerType(PlayerType.NintendoSwitch);
+				else {
+					/* TODO: Throw error */
+				}
+			}
+			else {
+				/* TODO: Give user error */
+				
+			}
 		}
 
 		// make the dialog disappear

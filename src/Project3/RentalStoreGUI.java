@@ -147,7 +147,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 				date.setTime(newDate);
 			}
 			catch (ParseException pe){
-				System.out.println("Could not parse input date!");
+				JOptionPane.showMessageDialog(null, "Invalid Date.");
 			}
 
 			DVD unit = list.get(index);
