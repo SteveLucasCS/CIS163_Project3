@@ -19,7 +19,7 @@ public class Game extends DVD {
 		String name,
 		PlayerType system
 	) {
-		super();
+		super(bought, dueBack, title, name);
 		this.player = system;
 	}
 
@@ -30,6 +30,16 @@ public class Game extends DVD {
 	public void setPlayerType(PlayerType player) {
 		// User input is parsed and checked in GUI
 		this.player = player;
+	}
+
+	public double getCost(GregorianCalendar date) {
+		// "date" is the date the game is being returned on
+		// cost is 5.00 if on time, 15.00 if late
+		if(this.dueBack.compareTo(date) < 0) { // dvd is late
+			return 15.0;
+		} else {
+			return 5.0;
+		}
 	}
 
 }
