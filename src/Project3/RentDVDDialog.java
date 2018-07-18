@@ -20,11 +20,16 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 	private JButton cancelButton;
 	private boolean closeStatus;
 
+	private Container con;
+	private JPanel textPanel;
+
 	private DVD unit;
 
 	public RentDVDDialog(JFrame parent, DVD d) {
 		// call parent and create a 'modal' dialog
 		super(parent, true);
+
+		con = getContentPane();
 
 		setTitle("Rent a DVD:");
 		closeStatus = false;
@@ -36,7 +41,7 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 
 		// instantiate and display text fields
 
-		JPanel textPanel = new JPanel();
+		textPanel = new JPanel();
 		textPanel.setLayout(new GridLayout(6, 2));
 
 		textPanel.add(new JLabel("Your Name:"));
@@ -63,7 +68,7 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 		DueBackTxt = new JTextField(df.format(date), 15);
 		textPanel.add(DueBackTxt);
 
-		getContentPane().add(textPanel, BorderLayout.CENTER);
+		con.add(textPanel, BorderLayout.CENTER);
 
 		// Instantiate and display two buttons
 		okButton = new JButton("OK");
@@ -71,7 +76,8 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
-		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+		con.add(buttonPanel, BorderLayout.SOUTH);
+
 		okButton.addActionListener(this);
 		cancelButton.addActionListener(this);
 
@@ -88,8 +94,10 @@ public class RentDVDDialog extends JDialog implements ActionListener {
 			// save the information in the object
 			closeStatus = true;
 
+			// TODO: set all props for dvd
 			unit.setNameOfRenter(renterTxt.getText());
 			unit.setTitle(titleTxt.getText());
+			// unit.set
 
 		}
 
