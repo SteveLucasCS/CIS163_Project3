@@ -24,7 +24,7 @@ public class RentalStore extends AbstractListModel {
 
 	public void remove (int index) {
 		DVDList.remove(index);
-		fireIntervalAdded(this, index - 1, index);
+		fireIntervalRemoved(this, 0, DVDList.size());
 	}
 
 	public DVD get (int i) {
@@ -34,7 +34,7 @@ public class RentalStore extends AbstractListModel {
 	public Object getElementAt(int index) {
 		DVD unit = DVDList.get(index);
 
-		//		String rentedOnDateStr = DateFormat.getDateInstance(DateFormat.SHORT)
+		//	String rentedOnDateStr = DateFormat.getDateInstance(DateFormat.SHORT)
 		//				.format(unit.getRentedOn().getTime());
 
 		String line = "Name: " + " " + DVDList.get(index).getNameOfRenter() +

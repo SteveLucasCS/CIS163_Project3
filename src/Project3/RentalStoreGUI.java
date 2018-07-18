@@ -32,6 +32,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 	private JMenuItem rentDVD;
 	private JMenuItem rentGame;
 	private JMenuItem returnItem;
+	private JMenuItem lateReport;
 
 	/**
 	 * Holds the list engine
@@ -60,14 +61,19 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		rentDVD = new JMenuItem("Rent DVD");
 		rentGame = new JMenuItem("Rent Game");
 		returnItem = new JMenuItem("Return");
+		lateReport = new JMenuItem("Create Late Report");
 
 		//adding items to bar
 		fileMenu.add(openSerItem);
 		fileMenu.add(saveSerItem);
+		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
 		actionMenu.add(rentDVD);
 		actionMenu.add(rentGame);
+		actionMenu.addSeparator();
 		actionMenu.add(returnItem);
+		actionMenu.addSeparator();
+		actionMenu.add(lateReport);
 
 		menus.add(fileMenu);
 		menus.add(actionMenu);
@@ -79,6 +85,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		rentDVD.addActionListener(this);
 		rentGame.addActionListener(this);
 		returnItem.addActionListener(this);
+		lateReport.addActionListener(this);
 
 		setJMenuBar(menus);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,7 +97,7 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 		//	JListArea.setVisible(true);
 
 		setVisible(true);
-		setSize(400, 400);
+		setSize(500, 500);
 		//		setSize(new Dimension (550,400));
 		//		setMinimumSize(new Dimension(550,400));
 		//		setMaximumSize(new Dimension(550,400));
@@ -99,50 +106,58 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 
-		Object comp = e.getSource();
+		Object src = e.getSource();
 
-		if (openSerItem == comp || openTextItem == comp) {
+		// MenuBar options
+		// File menu options
+		if (src == openSerItem || src == openTextItem) {
 			JFileChooser chooser = new JFileChooser();
 			int status = chooser.showOpenDialog(null);
 			if (status == JFileChooser.APPROVE_OPTION) {
 				String filename = chooser.getSelectedFile().getAbsolutePath();
-				if (openSerItem == comp)
+				if (src == openSerItem) {
 					list.loadFromSerializable(filename);
+				}
 			}
 		}
 
-		if (saveSerItem == comp || saveTextItem == comp) {
+		if (src == saveSerItem || src == saveTextItem) {
 			JFileChooser chooser = new JFileChooser();
 			int status = chooser.showSaveDialog(null);
 			if (status == JFileChooser.APPROVE_OPTION) {
 				String filename = chooser.getSelectedFile().getAbsolutePath();
-				if (saveSerItem == e.getSource())
+				if (src == saveSerItem) {
 					list.saveAsSerializable(filename);
+				}
 			}
 		}
 
-		//MenuBar options
-		if (e.getSource() == exitItem) {
+		if (src == exitItem) {
 			System.exit(0);
 		}
-		if (e.getSource() == rentDVD) {
+
+		// Action menu options
+		// XXX rent DVD XXX
+		if (src == rentDVD) {
 			DVD dvd = new DVD();
 			RentDVDDialog dialog = new RentDVDDialog(this, dvd);
 			list.add(dvd);
 		}
-		if (e.getSource() == rentGame) {
+		// XXX rent Game XXX
+		if (src == rentGame) {
 			Game game = new Game();
 			RentGameDialog dialog = new RentGameDialog(this, game);
 			list.add(game);
 		}
 
-		if (returnItem == e.getSource()) {
+		// XXX return XXX
+		if (src == returnItem) {
 			int index = JListArea.getSelectedIndex();
 			if(index < 0) {
 				JOptionPane.showMessageDialog(null, "Please select a unit to return from the list.");
 			} else {
 				GregorianCalendar date = new GregorianCalendar();
-				String inputDate = JOptionPane.showInputDialog("Enter return date (MM/DD/YYYY): ");
+				String inputDate = JOptionPane.showInputDialog("Enter return date (MM/DD/YYYY):");
 				SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 				try {
 					Date newDate = df.parse(inputDate);
@@ -153,12 +168,30 @@ public class RentalStoreGUI extends JFrame implements ActionListener {
 					" for returning " + unit.getTitle() + ", you owe: " + unit.getCost(date) +
 					" dollars");
 				}
-				catch (ParseException pe){
+				catch (ParseException pe) {
 					JOptionPane.showMessageDialog(null, "Could not parse input date!");
 				}
 				catch(NullPointerException npe) {
 					JOptionPane.showMessageDialog(null, "Return cancelled.");
 				}
+			}
+		}
+
+		// XXX late report XXX
+		if(src == lateReport) {
+			GregorianCalendar date = new GregorianCalendar();
+			String inputDate = JOptionPane.showInputDialog("Enter report date (MM/DD/YYYY):");
+			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			try {
+				Date newDate = df.parse(inputDate);
+				date.setTime(newDate);
+				LateReportModal reportModal = new LateReportModal(this, date, list);
+			}
+			catch (ParseException pe) {
+				JOptionPane.showMessageDialog(null, "Could not parse input date!");
+			}
+			catch(NullPointerException npe) {
+				JOptionPane.showMessageDialog(null, "Report generation cancelled.");
 			}
 		}
 	}

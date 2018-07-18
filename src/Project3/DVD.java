@@ -26,7 +26,12 @@ public class DVD implements Serializable {
 		this.nameOfRenter = null;
 	}
 
-	public DVD(GregorianCalendar bought, GregorianCalendar dueBack, String title, String name) {
+	public DVD(
+		GregorianCalendar bought,
+		GregorianCalendar dueBack,
+		String title,
+		String name
+	) {
 		super();
 		this.bought = bought;
 		this.dueBack = dueBack;
